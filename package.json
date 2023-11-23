@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev" : "webpack --mode development",
+    "prod" : "webpack --mode production",
     "start": "webpack serve --open",
     "test": "npx jest"
   },
