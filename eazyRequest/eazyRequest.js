@@ -1,5 +1,5 @@
-import {paramsAddAnd} from "./lib/paramsAddAnd";
-import {endpointToLowerCase} from "./lib/endpointToLowerCase";
+import { paramsAddAnd } from "./lib/paramsAddAnd";
+import { endpointToLowerCase } from "./lib/endpointToLowerCase";
 
 
 /**
@@ -16,10 +16,11 @@ export class EazyRequest {
     constructor(baseUrl) {
         if (baseUrl && typeof baseUrl === 'string') {
             this.baseURL = baseUrl;
-        }else {
+        } else {
             return new Error('base URL must be string')
         }
     }
+
     /**
      * Makes an HTTP request to the API.
      * @async
@@ -32,10 +33,10 @@ export class EazyRequest {
         try {
             const response = await fetch(`${this.baseURL}${endpoint}`, {
                 method,
-                body: data? JSON.stringify(data) : undefined,
+                "body": data ? JSON.stringify(data) : undefined,
             });
 
-             return await response.json();
+            return await response.json();
         } catch (err) {
             console.log(err);
         }
@@ -107,6 +108,42 @@ export class EazyRequest {
      * @returns {Promise<void>}
      */
     async post(endpoint, data) {
-        await this.#request(endpoint, "POST", data);
+        try {
+            if (data) {
+                return await this.#request(endpoint, "POST", data);
+            } else {
+                throw new Error('data must be object')
+            }
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    /**
+     * Sends a PATCH request to the specified endpoint with the provided data.
+     *
+     * @async
+     * @param {string} endpoint - The API endpoint to send the request to.
+     * @param {object} data - The data to send in the request body.
+     * @returns {Promise<object>} - The response from the API.
+     * @throws {Error} - If the data parameter is not an object.
+     *
+     * @example
+     * // Send a PATCH request to the "/users/123" endpoint with the data object { name: "John Doe" }
+     * const response = await api.patch("/users/123", { name: "John Doe" });
+     * console.log(response);
+     */
+    async patch(endpoint, data) {
+        try {
+            if (typeof data === 'object' && Object.keys(data).length) {
+              return await this.#request(endpoint, "PATCH", data)
+            } else {
+                throw new Error('data must be object')
+            }
+
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
