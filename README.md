@@ -6,13 +6,13 @@ A class for making HTTP requests to an API.
 ## Installation
 
 ```bash
-npm install eazy-request
+npm install eazyrequest
 ```
 
 ## Usage
 
 ```javascript
-import { EazyRequest } from 'eazy-request';
+import { EazyRequest } from 'eazyrequest';
 
 const api = new EazyRequest('https://api.example.com');
 
