@@ -1,62 +1,115 @@
+
 # EazyRequest
 
-EazyRequest is a JavaScript class that provides a simple way to make HTTP requests to an API. It supports GET and POST requests, and allows you to pass parameters as an object or as a query string.
+A class for making HTTP requests to an API.
 
 ## Installation
 
-You can install EazyRequest using npm or yarn:
-
-```
-npm install eazyrequest
-```
-
-```
-yarn add eazyrequest
+```bash
+npm install eazy-request
 ```
 
 ## Usage
 
-To use EazyRequest, you first need to create an instance of the class and pass in the base URL of your API:
-
-```
-import EazyRequest from 'eazy-request';
+```javascript
+import { EazyRequest } from 'eazy-request';
 
 const api = new EazyRequest('https://api.example.com');
-```
 
-Then, you can use the `get` and `post` methods to make requests to your API:
+// Make a GET request to the "/users" endpoint
+api.get('/users')
+ .then(response => console.log(response))
+ .catch(error => console.error(error));
 
-```
-// Make a GET request with no parameters
-const response = await api.get('/users');
+// Make a GET request to the "/users" endpoint with query parameters
+api.getByParams('/users', { name: 'John Doe', age: 30 })
+ .then(response => console.log(response))
+ .catch(error => console.error(error));
 
-// Make a GET request with parameters
-const response = await api.get('/users', { page: 1, limit: 10 });
+// Make a POST request to the "/users" endpoint with data
+api.post('/users', { name: 'John Doe', age: 30 })
+ .then(response => console.log(response))
+ .catch(error => console.error(error));
 
-// Make a POST request with data
-await api.post('/users', { name: 'John Doe', email: 'john.doe@example.com' });
+// Make a PATCH request to the "/users/123" endpoint with data
+api.patch('/users/123', { name: 'John Doe' })
+ .then(response => console.log(response))
+ .catch(error => console.error(error));
 ```
 
 ## Methods
 
-### `get(endpoint, params)`
+### `constructor(baseUrl)`
 
-Makes a GET request to the specified endpoint with the specified parameters.
+Constructs a new `EazyRequest` object.
+
+#### Parameters
+
+- `baseUrl` (string): The base URL of the API.
+
+#### Returns
+
+- `EazyRequest`: A new `EazyRequest` object.
+
+### `get(endpoint)`
+
+Makes a GET request to the specified endpoint.
+
+#### Parameters
 
 - `endpoint` (string): The endpoint to make the request to.
-- `params` (object): An object containing the parameters to include in the query string.
 
-Returns a Promise that resolves to the response data.
+#### Returns
+
+- `Promise<any>`: The response from the API.
+
+### `getByParams(endpoint, params)`
+
+Makes a GET request to the specified endpoint with the given parameters.
+
+#### Parameters
+
+- `endpoint` (string): The endpoint to make the request to.
+- `params` (Object): The parameters to include in the request.
+
+#### Returns
+
+- `Promise<any>`: The response from the API.
 
 ### `post(endpoint, data)`
 
-Makes a POST request to the specified endpoint with the specified data.
+Makes a POST request to the specified endpoint with the given data.
+
+#### Parameters
 
 - `endpoint` (string): The endpoint to make the request to.
-- `data` (object): An object containing the data to include in the request body.
+- `data` (Object): The data to include in the request.
 
-Returns a Promise that resolves to the response data.
+#### Returns
 
-## License
+- `Promise<void>`:
 
-EazyRequest is licensed under the MIT License. See the LICENSE file for more information.
+### `patch(endpoint, data)`
+
+Sends a PATCH request to the specified endpoint with the provided data.
+
+#### Parameters
+
+- `endpoint` (string): The API endpoint to send the request to.
+- `data` (object): The data to send in the request body.
+
+#### Returns
+
+- `Promise<object>`: The response from the API.
+
+#### Throws
+
+- `Error`: If the `data` parameter is not an object.
+
+#### Example
+
+```javascript
+// Send a PATCH request to the "/users/123" endpoint with the data object { name: "John Doe" }
+const response = await api.patch("/users/123", { name: "John Doe" });
+console.log(response);
+```
